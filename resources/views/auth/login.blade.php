@@ -11,9 +11,9 @@
             }">
                 @csrf
                 <div class="flex flex-col gap-4 mt-6 text-sm">
-                    <x-form-field type="text" name="primary" text="Email/Mobile No/Aadhaar No" required />
-                    <x-form-field type="password" name="password" text="Password" required />
-                    <x-form-field type="submit" text="LOG IN" class="py-2 mt-4 text-base tracking-wide" />
+                    <x-form-field type="text" name="primary" label="Email/Mobile No/Aadhaar No" required />
+                    <x-form-field type="password" name="password" required />
+                    <x-form-field type="submit" value="LOG IN" class="py-2 mt-4 text-base tracking-wide" />
                 </div>
             </form>
         </div>

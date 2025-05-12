@@ -1,5 +1,6 @@
 @props([
-    'text',
+    'label',
+    'labelDisplay' => true, // For input field without label
     'required' => false,
     'enableCrtValidation' => true,
     'disabled' => false,
@@ -19,14 +20,15 @@
 
     $inputType = $attributes->get('type');
     $name = $attributes->get('name');
+    $label = isset($label) ? $label : titleCase($name);
 @endphp
 
 @switch($inputType)
     @case('text')
     @case('password')
         <div>
-            @if (isset($text))
-                <label for={{ $name }} @class(['block', 'ast' => $required])>{{ $text }}</label>
+            @if ($labelDisplay)
+                <label for={{ $name }} @class(['block', 'ast' => $required])>{{ $label }}</label>
             @endif
 
             <input {{ $attributes->merge(['class' => $inputCommonClass, 'id' => "$name"]) }}
@@ -54,7 +56,7 @@
 
     @case('textarea')
         <div>
-            <label for={{ $name }} @class(['block', 'ast' => $required])>{{ $text }}</label>
+            <label for={{ $name }} @class(['block', 'ast' => $required])>{{ $label }}</label>
             <textarea {{ $attributes->merge(['class' => $inputCommonClass, 'id' => "$name"]) }}
                 :class="form.invalid('{{ $name }}') ?
                     'border-red-400 focus:ring-red-400 focus:border-red-400' :
@@ -74,7 +76,7 @@
                 'block' => $optionFlex == 'col' && true,
                 'mr-3',
                 'ast' => $required,
-            ])>{{ $text }}</label>
+            ])>{{ "$label: " }}</label>
             <select
                 {{ $attributes->merge(['class' => 'px-4 py-2 bg-gray-50 border-2 border-gray-400 outline-none rounded-sm shadow-md cursor-pointer hover:border-gray-500 active:border-gray-800', 'id' => "$name"]) }}
                 @disabled($disabled)>
@@ -98,8 +100,8 @@
 
     @case('dropdown-input')
         <div {{ $attributes->merge(['class' => 'relative']) }} id="{{ $name }}-dropdown-wrapper">
-            <x-form-field type="text" name="{{ $name }}" text="Address" id="{{ $name }}-input"
-                autocomplete="off" enableCrtValidation=false :disabled="$disabled" />
+            <x-form-field type="text" name="{{ $name }}" id="{{ $name }}-input" autocomplete="off"
+                enableCrtValidation=false :disabled="$disabled" :required="$required" />
 
             <ul id="{{ $name }}-dropdown-list"
                 class="absolute w-full bg-white rounded mt-1 max-h-40 overflow-y-auto z-10">
@@ -111,14 +113,14 @@
     @case('checkbox')
         <div>
             <input {{ $attributes->merge(['class' => '', 'id' => $name]) }} @disabled($disabled) />
-            <label for={{ $name }} @class(['ml-3'])>{{ $text }}</label>
+            <label for={{ $name }} @class(['ml-3'])>{{ $label }}</label>
         </div>
     @break
 
     @case('radio')
         <fieldset id="{{ $name }}-wrapper"
             class="border-2 border-gray-400 px-6 py-2 pr-10 rounded-lg shadow-sm hover:border-gray-500">
-            <legend class="font-semibold px-2">{{ $text }}</legend>
+            <legend class="font-semibold px-2">{{ $label }}</legend>
             <div class="flex {{ $optionFlex == 'row' ? 'space-x-10' : 'flex-col spcace-y-1' }}">
                 @foreach ($options as $key => $value)
                     @php
@@ -150,7 +152,7 @@
             </div>
             @if (!$disabled)
                 <label for={{ $name }}
-                    {{ $attributes->merge(['class' => $buttonCommonClass]) }}>{{ $text }}</label>
+                    {{ $attributes->merge(['class' => $buttonCommonClass]) }}>{{ $label }}</label>
                 <input type="file" {{ $attributes->merge(['id' => $name]) }} class="w-0 h-0 opacity-0"
                     accept=".jpeg,.jpg,.png" />
             @endif

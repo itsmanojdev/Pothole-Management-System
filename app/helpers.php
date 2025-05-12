@@ -31,16 +31,19 @@ if (!function_exists("userRouteIs")) {
  * To convert kebab/snake to title case (without - & _ ) *
  **********************/
 if (!function_exists("titleCase")) {
-    function titleCase(?string $str = "", string $case = "kebab")
+    function titleCase(?string $str = "")
     {
-        switch ($case) {
-            case 'kebab':
-                return implode(" ", array_map(fn($ele) => Str::title($ele), explode("-", $str)));
-            case 'snake':
-                return implode(" ", array_map(fn($ele) => Str::title($ele), explode("_", $str)));
-            default:
-                return $str;
-        }
+        $str = str_replace(['-', '_'], ' ', $str);
+        return Str::title($str);
+
+        // switch ($case) {
+        //     case 'kebab':
+        //         return implode(" ", array_map(fn($ele) => Str::title($ele), explode("-", $str)));
+        //     case 'snake':
+        //         return implode(" ", array_map(fn($ele) => Str::title($ele), explode("_", $str)));
+        //     default:
+        //         return $str;
+        // }
     }
 }
 

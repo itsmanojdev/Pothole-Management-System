@@ -15,12 +15,12 @@
             }">
                 @csrf
                 <div class="flex flex-col gap-4 mt-6 text-sm">
-                    <x-form-field type="text" name="name" text="Name" required />
-                    <x-form-field type="text" name="email" text="Email" required />
-                    <x-form-field type="text" name="mobile_number" text="Mobile Number" required />
-                    <x-form-field type="text" name="aadhaar_number" text="Aadhaar Number" required />
-                    <x-form-field type="password" name="password" text="Password" required />
-                    <x-form-field type="password" name="password_confirmation" text="Confirm Password" required />
+                    <x-form-field type="text" name="name" required />
+                    <x-form-field type="text" name="email" required />
+                    <x-form-field type="text" name="mobile_number" required />
+                    <x-form-field type="text" name="aadhaar_number" required />
+                    <x-form-field type="password" name="password" required />
+                    <x-form-field type="password" name="password_confirmation" label="Confirm Password" required />
                     <x-form-field type="submit" value="Register" class="mt-4 tracking-wide" />
                 </div>
             </form>

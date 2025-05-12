@@ -1,14 +1,14 @@
 <x-layouts.app>
     <div class="flex justify-between">
         <h1 class="heading">List of Admins</h1>
-        <x-button type="primary" :href="route('citizen.pothole.create')">Create Admin</x-button>
+        <x-button type="primary" :href="route('admin.create')">Create Admin</x-button>
     </div>
 
     <div class="flex flex-col gap-6 mt-6">
         <form id="admin-search-form" class="space-y-4">
-            <x-form-field type="text" name="search" class="px-4 text-base" value="{{ request('search') }}"
-                placeholder="Search By Name... " />
-            <x-form-field type="dropdown" name="role" text="Role: " :options="['all', 'admin', 'super-admin']" />
+            <x-form-field type="text" name="search" :labelDisplay="false" class="px-4 text-base"
+                value="{{ request('search') }}" placeholder="Search By Name... " />
+            <x-form-field type="dropdown" name="role" :options="['all', 'admin', 'super-admin']" />
         </form>
         @if (count($admins))
             @foreach ($admins as $admin)

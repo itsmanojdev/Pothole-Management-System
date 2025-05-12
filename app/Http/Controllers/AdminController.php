@@ -46,9 +46,14 @@ class AdminController extends Controller
         return view('admin.index', compact('admins'));
     }
 
-    public function create(): RedirectResponse
+    /**
+     * Create Admin View
+     *
+     * @return View
+     */
+    public function create(): View
     {
-        return redirect()->route('admin.index');
+        return view('admin.create');
     }
 
     public function store(): RedirectResponse

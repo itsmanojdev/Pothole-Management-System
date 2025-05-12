@@ -30,19 +30,19 @@
     @csrf
     <div class="flex items-center gap-16">
         <div class="w-3/5 space-y-4">
-            <x-form-field type="text" name="title" text="Title" :disabled="$isShow" />
-            <x-form-field type="textarea" name="description" text="Description" class="h-35" :disabled="$isShow" />
+            <x-form-field type="text" name="title" :disabled="$isShow" required />
+            <x-form-field type="textarea" name="description" class="h-35" :disabled="$isShow" />
         </div>
         <div class="mt-2">
-            <x-form-field type="img-file" name="pothole-image" text="Choose Pothole Image"
+            <x-form-field type="img-file" name="pothole-image" label="Choose Pothole Image"
                 imgSrc="{{ isset($pothole->image_path) ? getImageSource($pothole->image_path) : Vite::asset('resources/images/pothole_default.png') }}"
                 :disabled="$isShow" />
         </div>
     </div>
     <div class="px-6 py-4 space-y-4 bg-white border border-gray-400 rounded-sm shadow-md">
         <div class="flex gap-4">
-            <x-form-field type="dropdown-input" name="address" text="Address" autocomplete="off" class="flex-1"
-                :disabled="$isShow" />
+            <x-form-field type="dropdown-input" name="address" autocomplete="off" class="flex-1" :disabled="$isShow"
+                required />
             @if ($isCreate || $isEdit)
                 <x-button id="current-location-btn" class="py-2.5 relative top-[27px] self-start">Current
                     location</x-button>
@@ -63,9 +63,9 @@
         <x-form-field type="hidden" name="longitude" />
     </div>
     @if ($isCreate)
-        <x-form-field type="submit" id="" value="Create Pothole" class="px-16" />
+        <x-form-field type="submit" value="Create Pothole" class="px-16" />
     @elseif ($isEdit)
-        <x-form-field type="submit" id="" value="Update Pothole" class="px-16 py-3 mt-3 mb-0" />
+        <x-form-field type="submit" value="Update Pothole" class="px-16 py-3 mt-3 mb-0" />
         <x-button type="outline" :href="route('citizen.pothole.show', $pothole->id)" class="!text-base ml-4 px-8 py-3">Cancel</x-button>
     @elseif ($isShow)
         @if (Auth::user()->isCitizen())
@@ -86,7 +86,7 @@
                 <form method="post" action='{{ userRoute('pothole.verify', $pothole->id) }}' class="flex gap-6 mt-4">
                     @csrf
                     @method('PATCH')
-                    <x-form-field type="text" class="inline-block" name="verify"
+                    <x-form-field type="text" name="verify" :labelDisplay="false" class="inline-block"
                         placeholder="Type 'VERIFY' here..." />
                     <x-form-field type="submit" value="Verify" class="inline-block px-8 py-1" />
                 </form>
@@ -104,7 +104,8 @@
             <form method="post" action="/citizen/potholes/{{ $pothole->id }}" class="flex gap-6 mt-4">
                 @csrf
                 @method('DELETE')
-                <x-form-field type="text" class="inline-block" name="delete" placeholder="Type 'DELETE' here..." />
+                <x-form-field type="text" name="delete" :labelDisplay="false"
+                    class="inline-block"placeholder="Type 'DELETE' here..." />
                 <x-form-field type="submit" value="Delete"
                     class="inline-block px-8 py-1 bg-red-600 hover:bg-red-700 hover:border-red-900" />
             </form>
@@ -122,7 +123,7 @@
                 @csrf
                 @method('PATCH')
                 <x-form-field type="hidden" name="status" value="assigned" />
-                <x-form-field type="submit" class="inline-block px-8" value="Assign To Me" />
+                <x-form-field type="submit" value="Assign To Me" class="inline-block px-8" />
             </form>
         </x-layouts.inner-form>
     @elseif ($pothole->status != \App\PotholeStatus::VERIFIED)
@@ -137,9 +138,9 @@
                     class="flex items-center gap-8 mt-4">
                     @csrf
                     @method('PATCH')
-                    <x-form-field type="dropdown" name="status" text="Status: " class="w-42" :options="['open', 'assigned', 'in-progress', 'resolved', 'verified' => true]"
-                        :disablePrevOption="true" :currOpt="Str::kebab($pothole->status->value)" />
-                    <x-form-field type="submit" class="inline-block px-6" value="Update Status" />
+                    <x-form-field type="dropdown" name="status" class="w-42" :options="['open', 'assigned', 'in-progress', 'resolved', 'verified' => true]" :disablePrevOption="true"
+                        :currOpt="Str::kebab($pothole->status->value)" />
+                    <x-form-field type="submit" value="Update Status" class="inline-block px-6" />
                 </form>
             </x-layouts.inner-form>
         @elseif(Auth::user()->isCitizen())
