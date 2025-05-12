@@ -11,17 +11,24 @@ use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
 {
-    public function create() : View {
+    /**
+     * Register Form
+     *
+     * @return View
+     */
+    public function create(): View
+    {
         return view('auth.register');
     }
 
     /**
-     * store
+     * Register User from Sign Up Form
      *
      * @param  UserStoreRequest $request
      * @return RedirectResponse
      */
-    public function store(UserStoreRequest $request) : RedirectResponse {
+    public function store(UserStoreRequest $request): RedirectResponse
+    {
         $attributes = $request->validated();
         $attributes =  Arr::add($attributes, 'role', config('constants.CITIZEN'));
 
