@@ -21,6 +21,7 @@ return new class extends Migration
             $table->enum('role', UserRole::casesInString())->default(UserRole::CITIZEN->value);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('profile_pic')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

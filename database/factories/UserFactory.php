@@ -33,6 +33,7 @@ class UserFactory extends Factory
             'role' => UserRole::CITIZEN,
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
+            'profile_pic' => "https://picsum.photos/seed/" . fake()->numberBetween() . "/200/300",
             'remember_token' => Str::random(10),
         ];
     }
