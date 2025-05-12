@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+    --font-sans:
+        "Instrument Sans", ui-sans-serif, system-ui, sans-serif,
+        "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+        "Noto Color Emoji";
+    --font-rubik: "Rubik", "san-serif";
+
+    --color-heading: var(--color-gray-900);
+    --color-muted: var(--color-gray-600);
+    --color-text: var(--color-gray-800);
+
+    --color-primary-xlight: var(--color-indigo-600);
+    --color-primary-light: var(--color-indigo-700);
+    --color-primary-normal: var(--color-indigo-800);
+    --color-primary-dark: var(--color-indigo-900);
+    --color-primary-xdark: var(--color-indigo-950);
+}
+
+@utility container {
+    padding-inline: 1rem;
+    margin-inline: auto;
+
+    @variant sm {
+        padding-inline: 2rem;
+    }
+}
+
+/* For Required Form Field */
+.ast::after {
+    content: " *";
+    color: red;
+}
+
+.heading {
+    @apply text-heading text-2xl font-bold;
+}
+
+.animate {
+    @apply transition duration-300 ease-in-out;
+}
+
+.image-contain {
+    @apply size-full object-contain;
+}
+
+.image-cover {
+    @apply size-full object-cover;
+}
