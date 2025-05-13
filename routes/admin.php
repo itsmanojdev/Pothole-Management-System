@@ -20,13 +20,15 @@ Route::middleware(['auth', 'role:' . UserRole::ADMIN->value])->prefix('admin')->
     });
 
     Route::middleware('role:' . UserRole::SUPER_ADMIN->value)->group(function () {
-        Route::get('/index', [AdminController::class, 'index'])->name('index');
-        Route::get('/create', [AdminController::class, 'create'])->name('create');
-        Route::post('/', [AdminController::class, 'store'])->middleware([HandlePrecognitiveRequests::class])->name('store');
-        Route::get('/{admin}', [AdminController::class, 'show'])->name('show');
-        Route::get('/{admin}/edit', [AdminController::class, 'edit'])->name('edit');
-        Route::patch('/{admin}', [AdminController::class, 'update'])->middleware([HandlePrecognitiveRequests::class])->name('update');
-        Route::delete('/{admin}', [AdminController::class, 'destroy'])->name('destroy');
+        Route::prefix('management')->name('management.')->group(function () {
+            Route::get('/index', [AdminController::class, 'index'])->name('index');
+            Route::get('/create', [AdminController::class, 'create'])->name('create');
+            Route::post('/', [AdminController::class, 'store'])->middleware([HandlePrecognitiveRequests::class])->name('store');
+            Route::get('/{admin}', [AdminController::class, 'show'])->name('show');
+            Route::get('/{admin}/edit', [AdminController::class, 'edit'])->name('edit');
+            Route::patch('/{admin}', [AdminController::class, 'update'])->middleware([HandlePrecognitiveRequests::class])->name('update');
+            Route::delete('/{admin}', [AdminController::class, 'destroy'])->name('destroy');
+        });
 
         Route::patch('potholes/{pothole}/verify', [PotholeController::class, 'verify'])->name('pothole.verify');
     });

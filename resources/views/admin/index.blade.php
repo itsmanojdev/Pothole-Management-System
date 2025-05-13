@@ -1,7 +1,7 @@
 <x-layouts.app>
     <div class="flex justify-between">
         <h1 class="heading">List of Admins</h1>
-        <x-button type="primary" :href="route('admin.create')">Create Admin</x-button>
+        <x-button type="primary" :href="route('admin.management.create')">Create Admin</x-button>
     </div>
 
     <div class="flex flex-col gap-6 mt-6">
@@ -15,7 +15,7 @@
                 {{-- <x-index-card resource="pothole" :content="$pothole" /> --}}
                 @include('components.index-card', [
                     'resource' => 'admin',
-                    'showURL' => route('admin.show', $admin->id),
+                    'showURL' => route('admin.management.show', $admin->id),
                     'id' => $admin->id,
                     'title' => $admin->name,
                     'content' => "Role: {$admin->role->value}",

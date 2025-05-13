@@ -58,26 +58,26 @@ class AdminController extends Controller
 
     public function store(): RedirectResponse
     {
-        return redirect()->route('admin.index');
+        return redirect()->route('admin.management.index');
     }
 
     public function show(): RedirectResponse
     {
-        return redirect()->route('admin.index');
+        return redirect()->route('admin.management.index');
     }
 
     public function edit(): RedirectResponse
     {
-        return redirect()->route('admin.index');
+        return redirect()->route('admin.management.index');
     }
 
     public function update(): RedirectResponse
     {
-        return redirect()->route('admin.index');
+        return redirect()->route('admin.management.index');
     }
 
     public function destroy(): RedirectResponse
     {
-        return redirect()->route('admin.index');
+        return redirect()->route('admin.management.index');
     }
 }

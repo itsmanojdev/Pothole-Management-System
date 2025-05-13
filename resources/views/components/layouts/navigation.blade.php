@@ -15,13 +15,13 @@
                         <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">Dashboard</x-nav-link>
                         <x-nav-link :href="route('admin.pothole.index')" :active="request()->routeIs('pothole.index')">Pothole Managment</x-nav-link>
                         @if (Auth::user()->isSuperAdmin())
-                            <x-nav-link :href="route('admin.index')" :active="request()->routeIs('admin.index')">Admin Management</x-nav-link>
+                            <x-nav-link :href="route('admin.management.index')" :active="request()->routeIs('admin.management.index')">Admin Management</x-nav-link>
                         @endif
                     @endif --}}
                     <x-nav-link :href="userRoute('dashboard')" :active="userRouteIs('dashboard')">Dashboard</x-nav-link>
                     <x-nav-link :href="userRoute('pothole.index')" :active="userRouteIs('pothole.*')">Pothole Management</x-nav-link>
                     @if (Auth::user()->isSuperAdmin())
-                        <x-nav-link :href="userRoute('index')" :active="userRouteIs('index')">Admin Management</x-nav-link>
+                        <x-nav-link :href="userRoute('management.index')" :active="userRouteIs('management.*')">Admin Management</x-nav-link>
                     @endif
                 @endauth
 

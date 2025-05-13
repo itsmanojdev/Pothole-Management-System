@@ -5,6 +5,7 @@
     'enableCrtValidation' => true,
     'disabled' => false,
     'imgSrc' => '', // For image file
+    'imgClasses' => 'w-75 h-50', // For image preview classes
     'options' => [], //For dropdown & radio btn. Form: 'option' => isDisabled (option specific disabling)
     'optionFlex' => 'row', // For dropdown & radio options
     'disablePrevOption' => false, // For dropdown, if enabled options before the selected option will be disabled
@@ -112,7 +113,7 @@
 
     @case('checkbox')
         <div>
-            <input {{ $attributes->merge(['class' => '', 'id' => $name]) }} @disabled($disabled) />
+            <input {{ $attributes->merge(['class' => '', 'id' => $name]) }} @disabled($disabled) @required($required) />
             <label for={{ $name }} @class(['ml-3'])>{{ $label }}</label>
         </div>
     @break
@@ -120,7 +121,7 @@
     @case('radio')
         <fieldset id="{{ $name }}-wrapper"
             class="border-2 border-gray-400 px-6 py-2 pr-10 rounded-lg shadow-sm hover:border-gray-500">
-            <legend class="font-semibold px-2">{{ $label }}</legend>
+            <legend @class(['font-semibold', 'px-2', 'ast' => $required])>{{ $label }}</legend>
             <div class="flex {{ $optionFlex == 'row' ? 'space-x-10' : 'flex-col spcace-y-1' }}">
                 @foreach ($options as $key => $value)
                     @php
@@ -143,7 +144,7 @@
         @endphp
 
         <div class="flex flex-col gap-1">
-            <div id="{{ $name }}-preview" class="w-75 h-50">
+            <div id="{{ $name }}-preview" class="{{ $imgClasses }}">
                 @if ($imgSrc)
                     <img src="{{ $imgSrc }}" alt="{{ $title }}" class="image-cover rounded-lg">
                 @else
