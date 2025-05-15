@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserStoreRequest;
 use App\Models\User;
 use App\UserRole;
+use Arr;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -56,14 +58,39 @@ class AdminController extends Controller
         return view('admin.create');
     }
 
-    public function store(): RedirectResponse
+    /**
+     * Create Admin Record
+     *
+     * @param  UserStoreRequest $request
+     * @return RedirectResponse
+     */
+    public function store(UserStoreRequest $request): RedirectResponse
     {
-        return redirect()->route('admin.management.index');
+        $attributes = $request->validated();
+        $role = UserRole::from(titleCase(request('role')));
+
+        $profile_pic = request()->hasFile('profile-pic')
+            ? request()->file('profile-pic')->store("profiles", "public")
+            : null;
+
+        $attributes = array_merge($attributes, [
+            "role" => $role->value,
+            "profile_pic" => $profile_pic
+        ]);
+
+        User::create($attributes);
+
+        return redirect()->route('admin.management.index')->with('success', "Admin Created Successfully!!");
     }
 
-    public function show(): RedirectResponse
+    /**
+     * Show Admin Details Page
+     *
+     * @return View
+     */
+    public function show(User $admin): View
     {
-        return redirect()->route('admin.management.index');
+        return view('admin.show', compact('admin'));
     }
 
     public function edit(): RedirectResponse

@@ -28,7 +28,9 @@ class UserStoreRequest extends FormRequest
             'email' => ['required', 'email', 'lowercase', 'max:255', 'unique:' . User::class],
             'aadhaar_number' => ['required', 'numeric', 'digits:12', 'unique:' . User::class],
             'mobile_number' => ['required', 'numeric', 'digits:10', 'regex:/^[6-9]\d{9}$/', 'unique:' . User::class],
-            'password' => ['required', Password::defaults(), 'confirmed']
+            'password' => ['required', Password::defaults(), 'confirmed'],
+            'role' => ['sometimes', 'in:admin,super-admin'],
+            "profile-pic" => $this->isPrecognitive() ? [] : ["nullable", "mimes:jpeg,jpg,png"],
         ];
     }
 }

@@ -24,10 +24,10 @@
         longitude: `{{ old('longitude', $pothole->longitude ?? '') }}`
     }).setErrors({{ Js::from($errors->messages()) }}),
 }">
+    @csrf
     @if ($isEdit)
         @method('PATCH')
     @endif
-    @csrf
     <div class="flex items-center gap-16">
         <div class="w-3/5 space-y-4">
             <x-form-field type="text" name="title" :disabled="$isShow" required />

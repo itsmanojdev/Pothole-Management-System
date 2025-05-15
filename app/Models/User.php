@@ -33,6 +33,8 @@ class User extends Authenticatable
         'password',
         'mobile_number',
         'aadhaar_number',
+        'role',
+        'profile_pic'
     ];
 
     /**
