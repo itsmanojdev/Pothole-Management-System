@@ -4,6 +4,7 @@
     $isCreate = $mode == 'create';
     $isShow = $mode == 'show';
     $isEdit = $mode == 'edit';
+    $isProfile = request()->routeIs('profile');
 
     $formURL = '/admin/management';
     $method = 'post';
@@ -36,9 +37,11 @@
         <x-form-field type="text" name="mobile_number" :disabled="$isShow" required />
         <x-form-field type="text" name="aadhaar_number" :disabled="$isShow" required />
         <x-form-field type="radio" name="role" :options="['admin', 'super-admin']" :disabled="$isShow" required />
-        <x-form-field type="password" name="password" :disabled="$isShow" required />
-        <x-form-field type="password" name="password_confirmation" label="Confirm Password" :disabled="$isShow"
-            required />
+        @if ($isCreate)
+            <x-form-field type="password" name="password" :disabled="$isShow" required />
+            <x-form-field type="password" name="password_confirmation" label="Confirm Password" :disabled="$isShow"
+                required />
+        @endif
         <x-form-field type="submit" value="Create Admin" class="px-16 mt-6" />
 
     </div>
@@ -48,3 +51,31 @@
             imgClasses="size-65" :disabled="$isShow" />
     </div>
 </form>
+
+@if ($isShow || $isEdit || $isProfile)
+    {{-- Change Password Form --}}
+    <hr class="my-8 border-gray-400" />
+    <x-layouts.inner-form>
+        <x-slot name="title">Change Password</x-slot>
+        <form method="post" action="{{ route('admin.management.verify', $admin->id) }}" class="mt-4 space-y-4 w-1/2">
+            @csrf
+            @method('PATCH')
+            <x-form-field type="password" name="{{ $isProfile ? 'old' : 'your' }}_password" />
+            <x-form-field type="password" name="new_password" />
+            <x-form-field type="password" name="new_password_conformation" label="Confirm Password" />
+            <x-form-field type="submit" value="Change Password" class="inline-block px-8 mt-4" />
+        </form>
+    </x-layouts.inner-form>
+    {{-- Delete Form --}}
+    <x-layouts.inner-form theme="red" class="mt-8">
+        <x-slot name="title">Delete Admin</x-slot>
+        <form method="post" action="{{ route('admin.management.destroy', $admin->id) }}" class="flex gap-6 mt-4">
+            @csrf
+            @method('DELETE')
+            <x-form-field type="text" name="delete" label="Confirm Delete" class="inline-block"
+                placeholder="Type 'DELETE' here..." />
+            <x-form-field type="submit" value="Delete"
+                class="inline-block px-8 py-1 mt-auto bg-red-600 hover:bg-red-700 hover:border-red-900" />
+        </form>
+    </x-layouts.inner-form>
+@endif

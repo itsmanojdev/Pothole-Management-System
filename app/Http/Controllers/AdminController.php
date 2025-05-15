@@ -103,6 +103,11 @@ class AdminController extends Controller
         return redirect()->route('admin.management.index');
     }
 
+    public function verify(): RedirectResponse
+    {
+        return redirect()->route('admin.management.index');
+    }
+
     public function destroy(): RedirectResponse
     {
         return redirect()->route('admin.management.index');

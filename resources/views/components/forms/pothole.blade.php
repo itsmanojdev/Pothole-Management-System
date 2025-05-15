@@ -101,11 +101,11 @@
         <x-layouts.inner-form theme="red">
             <x-slot name="title">Delete Pothole</x-slot>
             <p class="text-muted text-sm">Current Status: {{ $pothole->status }}</p>
-            <form method="post" action="/citizen/potholes/{{ $pothole->id }}" class="flex gap-6 mt-4">
+            <form method="post" action="{{ route('citizen.pothole.destroy', $pothole->id) }}" class="flex gap-6 mt-4">
                 @csrf
                 @method('DELETE')
-                <x-form-field type="text" name="delete" :labelDisplay="false"
-                    class="inline-block"placeholder="Type 'DELETE' here..." />
+                <x-form-field type="text" name="delete" :labelDisplay="false" class="inline-block"
+                    placeholder="Type 'DELETE' here..." />
                 <x-form-field type="submit" value="Delete"
                     class="inline-block px-8 py-1 bg-red-600 hover:bg-red-700 hover:border-red-900" />
             </form>
@@ -119,7 +119,7 @@
         <x-layouts.inner-form>
             <x-slot name="title">Status Update</x-slot>
             <p class="text-muted text-sm">Current Status: {{ $pothole->status }}</p>
-            <form method="post" action="/admin/potholes/{{ $pothole->id }}/status" class="mt-4">
+            <form method="post" action="{{ route('admin.pothole.status', $pothole->id) }}" class="mt-4">
                 @csrf
                 @method('PATCH')
                 <x-form-field type="hidden" name="status" value="assigned" />
@@ -134,7 +134,7 @@
                 <x-slot name="title">Status Update</x-slot>
                 <p class="text-muted text-sm">Current Status: {{ $pothole->status }}</p>
 
-                <form method="post" action="/admin/potholes/{{ $pothole->id }}/status"
+                <form method="post" action="{{ route('admin.pothole.status', $pothole->id) }}"
                     class="flex items-center gap-8 mt-4">
                     @csrf
                     @method('PATCH')

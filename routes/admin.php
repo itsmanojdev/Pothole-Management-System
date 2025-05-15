@@ -30,6 +30,7 @@ Route::middleware(['auth', 'role:' . UserRole::ADMIN->value])->prefix('admin')->
             Route::delete('/{admin}', [AdminController::class, 'destroy'])->name('destroy');
         });
 
+        Route::get('/{admin}/verify', [AdminController::class, 'verify'])->middleware([HandlePrecognitiveRequests::class])->name('management.verify');
         Route::patch('potholes/{pothole}/verify', [PotholeController::class, 'verify'])->name('pothole.verify');
     });
 });
