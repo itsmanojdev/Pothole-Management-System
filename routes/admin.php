@@ -26,11 +26,11 @@ Route::middleware(['auth', 'role:' . UserRole::ADMIN->value])->prefix('admin')->
             Route::post('/', [AdminController::class, 'store'])->middleware([HandlePrecognitiveRequests::class])->name('store');
             Route::get('/{admin}', [AdminController::class, 'show'])->name('show');
             Route::get('/{admin}/edit', [AdminController::class, 'edit'])->name('edit');
-            Route::patch('/{admin}', [AdminController::class, 'update'])->middleware([HandlePrecognitiveRequests::class])->name('update');
-            Route::delete('/{admin}', [AdminController::class, 'destroy'])->name('destroy');
+            Route::patch('/{user}/password', [AdminController::class, 'changePassword'])->middleware([HandlePrecognitiveRequests::class])->name('password');
+            Route::patch('/{user}', [AdminController::class, 'update'])->middleware([HandlePrecognitiveRequests::class])->name('update');
+            Route::delete('/{user}', [AdminController::class, 'destroy'])->name('destroy');
         });
 
-        Route::get('/{admin}/verify', [AdminController::class, 'verify'])->middleware([HandlePrecognitiveRequests::class])->name('management.verify');
         Route::patch('potholes/{pothole}/verify', [PotholeController::class, 'verify'])->name('pothole.verify');
     });
 });

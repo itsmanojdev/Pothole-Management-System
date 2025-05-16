@@ -55,3 +55,7 @@
 .image-cover {
     @apply size-full object-cover;
 }
+
+.red-btn {
+    @apply bg-red-600 hover:bg-red-700 hover:border-red-900 active:bg-red-800;
+}

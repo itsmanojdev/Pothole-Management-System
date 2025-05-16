@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Password;
 
 class UserStoreRequest extends FormRequest
@@ -21,16 +22,31 @@ class UserStoreRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
+    public function rules(Request $request): array
     {
-        return [
+        $rules =  [
             'name' => ['required', 'string', 'min:5', 'max:255'],
-            'email' => ['required', 'email', 'lowercase', 'max:255', 'unique:' . User::class],
-            'aadhaar_number' => ['required', 'numeric', 'digits:12', 'unique:' . User::class],
-            'mobile_number' => ['required', 'numeric', 'digits:10', 'regex:/^[6-9]\d{9}$/', 'unique:' . User::class],
+            'email' => ['required', 'email', 'lowercase', 'max:255'],
+            'aadhaar_number' => ['required', 'numeric', 'digits:12'],
+            'mobile_number' => ['required', 'numeric', 'digits:10', 'regex:/^[6-9]\d{9}$/'],
             'password' => ['required', Password::defaults(), 'confirmed'],
             'role' => ['sometimes', 'in:admin,super-admin'],
-            "profile-pic" => $this->isPrecognitive() ? [] : ["nullable", "mimes:jpeg,jpg,png"],
+            "profile-pic" => $request->isPrecognitive() ? [] : ["nullable", "mimes:jpeg,jpg,png"],
         ];
+
+        $user = $request->route('user');
+
+        if ($request->isMethod('PUT') || $request->isMethod('PATCH')) {
+            array_push($rules['email'], 'unique:users,email,' . $user->id);
+            array_push($rules['aadhaar_number'], 'unique:users,aadhaar_number,' . $user->id);
+            array_push($rules['mobile_number'], 'unique:users,mobile_number,' . $user->id);
+            unset($rules['password']);
+        } else {
+            array_push($rules['email'], 'unique:' . User::class);
+            array_push($rules['aadhaar_number'], 'unique:' . User::class);
+            array_push($rules['mobile_number'], 'unique:' . User::class);
+        }
+
+        return $rules;
     }
 }

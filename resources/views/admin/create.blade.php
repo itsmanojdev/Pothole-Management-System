@@ -3,5 +3,5 @@
         Create Admin
     </x-slot>
 
-    <x-forms.admin />
+    <x-forms.user />
 </x-layouts.app>

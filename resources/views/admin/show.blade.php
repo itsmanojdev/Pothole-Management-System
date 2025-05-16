@@ -3,5 +3,5 @@
         Admin Details
     </x-slot>
 
-    <x-forms.admin mode="show" :admin="$admin" />
+    <x-forms.user mode="show" :user="$admin" />
 </x-layouts.app>

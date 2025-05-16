@@ -123,7 +123,7 @@ class PotholeController extends Controller
         $pothole->fill($validated);
 
         if (request()->hasFile('pothole-image')) {
-            Storage::disk('public')->delete($pothole->image_path);
+            Storage::disk('public')->delete($pothole->image_path ?? '');
             $pothole->image_path = request()->file('pothole-image')->store("potholes", "public");
         }
 

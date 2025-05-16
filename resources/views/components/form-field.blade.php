@@ -130,7 +130,7 @@
                     @endphp
                     <div>
                         <input {{ $attributes->merge(['id' => "$option", 'value' => "$option"]) }}
-                            @checked(request($name) == $option || $option == $options[0]) @disabled($isOptDisabled || $disabled) />
+                            x-model="form.{{ $name }}" @checked(request($name) == $option || $option == $options[0]) @disabled($isOptDisabled || $disabled) />
                         <label for={{ $option }}>{{ titleCase($option) }}</abel>
                     </div>
                 @endforeach

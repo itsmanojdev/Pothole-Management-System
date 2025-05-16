@@ -41,7 +41,7 @@
             @endguest
 
             @auth
-                <x-nav-link :href="route('profile')" :active="request()->routeIs('profile')">Profile</x-nav-link>
+                <x-nav-link :href="route('user.profile')" :active="request()->routeIs('user.profile')">Profile</x-nav-link>
 
                 <form method="POST" action="/logout" class="ml-2 inline-flex items-center">
                     @csrf
