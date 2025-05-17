@@ -25,7 +25,7 @@ class ChangePasswordRequest extends FormRequest
      */
     public function rules(): array
     {
-        $isProfile = request()->routeIs('user.profile');
+        $isProfile = request()->routeIs('user.profile.*');
         $newPassword = ['required', Password::defaults(), 'confirmed:new_password_confirmation'];
         $isProfile && array_push($newPassword, 'different:password');
 

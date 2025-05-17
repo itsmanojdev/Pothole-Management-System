@@ -31,7 +31,7 @@ class UserStoreRequest extends FormRequest
             'mobile_number' => ['required', 'numeric', 'digits:10', 'regex:/^[6-9]\d{9}$/'],
             'password' => ['required', Password::defaults(), 'confirmed'],
             'role' => ['sometimes', 'in:admin,super-admin'],
-            "profile-pic" => $request->isPrecognitive() ? [] : ["nullable", "mimes:jpeg,jpg,png"],
+            "profile-pic" => $request->isPrecognitive() ? [] : ["nullable", "max:5120", "mimes:jpeg,jpg,png"],
         ];
 
         $user = $request->route('user');

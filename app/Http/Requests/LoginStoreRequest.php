@@ -8,8 +8,8 @@ use Illuminate\Validation\Validator;
 
 class LoginStoreRequest extends FormRequest
 {
-    
-    public string $loginField; 
+
+    public string $loginField;
 
     /**
      * Determine if the user is authorized to make this request.
@@ -34,16 +34,16 @@ class LoginStoreRequest extends FormRequest
                 $this->loginField = 'aadhaar_number';
                 $primary_validation = ['primary' => ['required', 'digits:12']];
             }
-        }else{
+        } else {
             $this->loginField = 'email';
             $primary_validation = ['primary' => ['required', 'email']];
         }
-        
+
         return array_merge($primary_validation, [
             'password' => ['required']
         ]);
     }
-    
+
     /**
      * Custom Messages
      *
@@ -58,7 +58,7 @@ class LoginStoreRequest extends FormRequest
             'primary.regex' => 'The mobile number given is invalid.'
         ];
     }
-    
+
     /**
      * passedValidation - primary field handle
      *
@@ -66,7 +66,7 @@ class LoginStoreRequest extends FormRequest
      */
     protected function passedValidation(): void
     {
-        $this->merge([$this->loginField => request('primary')]);
-        $this->offsetUnset('primary');
+        request()->merge([$this->loginField => request('primary')]);
+        request()->offsetUnset('primary');
     }
 }

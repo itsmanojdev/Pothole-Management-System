@@ -30,7 +30,7 @@ class PotholeRequest extends FormRequest
             "address" => ["required", "string"],
             "latitude" => ["required", "numeric", "between:-90,90"],
             "longitude" => ["required", "numeric", "between:-180,180"],
-            "pothole-image" => request()->isPrecognitive() ? [] : ["nullable", "mimes:jpeg,jpg,png"],
+            "pothole-image" => request()->isPrecognitive() ? [] : ["nullable", "max:5120", "mimes:jpeg,jpg,png"],
         ];
     }
 
