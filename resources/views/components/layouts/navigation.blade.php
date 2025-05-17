@@ -1,9 +1,9 @@
 <nav class="bg-white shadow-md text-sm">
     <div class="mx-auto h-[56px] flex justify-between md:px-16 px-8">
-        <div class="flex">
-            <div>
-                <a href="{{ route('home') }}">
-                    <x-logo class="size-14 text-gray-900" />
+        <div class="flex gap-4">
+            <div class="flex">
+                <a href="{{ route('home') }}" class="self-center">
+                    <x-logo class="size-9 text-gray-900" />
                 </a>
             </div>
             <div class="flex">
