@@ -5,17 +5,18 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\UserStoreRequest;
 use App\Models\User;
+use App\Services\UserService;
 use App\UserRole;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class AdminController extends Controller
 {
+    public function __construct(protected UserService $userService) {}
+
     /**
      * Show Admin & Super Admin List
      *
@@ -70,18 +71,7 @@ class AdminController extends Controller
     public function store(UserStoreRequest $request): RedirectResponse
     {
         $attributes = $request->validated();
-        $role = UserRole::from(titleCase(request('role')));
-
-        $profile_pic = request()->hasFile('profile-pic')
-            ? request()->file('profile-pic')->store("profiles", "public")
-            : null;
-
-        $attributes = array_merge($attributes, [
-            "role" => $role->value,
-            "profile_pic" => $profile_pic
-        ]);
-
-        User::create($attributes);
+        $this->userService->createUser($attributes);
 
         return redirect()->route('admin.management.index')->with('success', "Admin Created Successfully!!");
     }
@@ -118,24 +108,10 @@ class AdminController extends Controller
     {
         $attributes = $request->validated();
         $attributes['role'] = titleCase($attributes['role']);
-        $user->fill($attributes);
-        $isProfile = request()->routeIs('user.profile');
 
-        //if it's from profile, respective user can update their profile
-        if ($isProfile && Auth::id() != $user->id) {
-            abort(403, 'Oops!! Unauthorized Access');
-        }
-
-        if (request()->hasFile('profile-pic')) {
-            Storage::disk('public')->delete($user->profile_pic ?? '');
-            $user->profile_pic = request()->file('profile-pic')->store("profiles", "public");
-        }
-
-        // Save only if fields are dirty
-        if ($user->isDirty()) {
-            $user->save();
-
-            return redirect()->route($isProfile ? 'profile' : 'admin.management.show', $user->id)->with('success', ($isProfile ? 'Profile' : 'Admin') . ' Details Updated Successfully!!');
+        $savedUser = $this->userService->updateDetails($user, $attributes);
+        if ($savedUser) {
+            return redirect()->route('admin.management.show', $user->id)->with('success', 'Admin Details Updated Successfully!!');
         }
         return back()->with('info', 'No changes detected.');
     }
@@ -150,33 +126,22 @@ class AdminController extends Controller
     public function changePassword(ChangePasswordRequest $request, User $user): RedirectResponse
     {
         $validated = $request->validated();
-        $isProfile = request()->routeIs('user.profile');
 
-        if (!$isProfile) {
-            // Invalidate admin's sessions
-            DB::table('sessions')->where('user_id', $user->id)->delete();
-        }
+        // Invalidate admin's sessions
+        DB::table('sessions')->where('user_id', $user->id)->delete();
 
-        $user->password = $validated['new_password'];
-        $user->save();
-        return redirect()->route($isProfile ? 'profile' : 'admin.management.show', $user->id)->with('success', 'Password Updated Successfully!!');
+        $this->userService->changePassword($user, $validated['new_password']);
+        return redirect()->route('admin.management.show', $user->id)->with('success', 'Password Updated Successfully!!');
     }
 
-    public function destroy(Request $request, User $user): RedirectResponse
+    public function destroy(User $user): RedirectResponse
     {
-        $isProfile = request()->routeIs('user.profile');
-        if ($request->delete === "DELETE") {
-            if ($isProfile) {
-                Auth::logout();
-                request()->session()->invalidate();
-                request()->session()->regenerateToken();
-            }
-
+        if ($this->userService->deleteUser($user)) {
             // Invalidate user's sessions -> Helps in invalidate admin's session if super admin deletes account
             DB::table('sessions')->where('user_id', $user->id)->delete();
-            $user->delete();
-            return redirect()->route($isProfile ? 'home' : 'admin.management.index')->with('success', ($isProfile ? 'Your Account' : 'Admin') . " Deleted Successfully!!");
+
+            return redirect()->route('admin.management.index')->with('success', "Admin Deleted Successfully!!");
         }
-        return back()->with('error', "Type DELETE to delete the " . ($isProfile ? 'Account' : 'Admin'));
+        return back()->with('error', "Type DELETE to delete the Admin");
     }
 }

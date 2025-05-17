@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserStoreRequest;
 use App\Models\User;
+use App\Services\UserService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
@@ -27,13 +28,11 @@ class RegisteredUserController extends Controller
      * @param  UserStoreRequest $request
      * @return RedirectResponse
      */
-    public function store(UserStoreRequest $request): RedirectResponse
+    public function store(UserStoreRequest $request, UserService $userService): RedirectResponse
     {
         $attributes = $request->validated();
-        $attributes =  Arr::add($attributes, 'role', config('constants.CITIZEN'));
 
-        $user = User::create($attributes);
-
+        $user = $userService->createUser($attributes);
         Auth::login($user);
 
         return redirect()->intended(route('citizen.dashboard'))->with('success', 'Registered Successfully! Great to have you here');

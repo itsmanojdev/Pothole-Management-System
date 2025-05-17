@@ -66,7 +66,7 @@ class LoginStoreRequest extends FormRequest
      */
     protected function passedValidation(): void
     {
-        request()->merge([$this->loginField => request('primary')]);
-        request()->offsetUnset('primary');
+        $this->merge([$this->loginField => request('primary')]);
+        $this->offsetUnset('primary');
     }
 }
