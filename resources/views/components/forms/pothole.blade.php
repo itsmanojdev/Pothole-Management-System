@@ -80,7 +80,7 @@
     @if ($pothole->status == \App\PotholeStatus::RESOLVED)
         {{-- Verification Form (Citizen & Super Admin) --}}
         <hr class="my-8 border-gray-400" />
-        <x-layouts.inner-form>
+        <x-layouts.card>
             <x-slot name="title">Verify Pothole</x-slot>
             <p class="text-muted text-sm">Current Status: {{ $pothole->status }}</p>
             @if (Auth::user()->isCitizen() || Auth::user()->isSuperAdmin())
@@ -94,12 +94,12 @@
             @else
                 <p class="mt-4">This pothole needs to be verified by either reported Citizen or Super Admin</p>
             @endif
-        </x-layouts.inner-form>
+        </x-layouts.card>
     @elseif (Auth::user()->isCitizen() &&
             ($pothole->status == \App\PotholeStatus::OPEN || $pothole->status == \App\PotholeStatus::ASSIGNED))
         {{-- Delete Form (Citizen) --}}
         <hr class="my-8 border-gray-400" />
-        <x-layouts.inner-form theme="red">
+        <x-layouts.card theme="red">
             <x-slot name="title">Delete Pothole</x-slot>
             <p class="text-muted text-sm">Current Status: {{ $pothole->status }}</p>
             <form method="post" action="{{ route('citizen.pothole.destroy', $pothole->id) }}" class="flex gap-6 mt-4">
@@ -112,11 +112,11 @@
             <p class="text-muted text-xs mt-2">Pothole cannot be deleted after repair starts (Pothole status: In
                 progress)
             </p>
-        </x-layouts.inner-form>
+        </x-layouts.card>
     @elseif ($pothole->status == \App\PotholeStatus::OPEN)
         {{-- Assign To Me Form (Admin & Super Admin) --}}
         <hr class="my-8 border-gray-400" />
-        <x-layouts.inner-form>
+        <x-layouts.card>
             <x-slot name="title">Status Update</x-slot>
             <p class="text-muted text-sm">Current Status: {{ $pothole->status }}</p>
             <form method="post" action="{{ route('admin.pothole.status', $pothole->id) }}" class="mt-4">
@@ -125,12 +125,12 @@
                 <x-form-field type="hidden" name="status" value="assigned" />
                 <x-form-field type="submit" value="Assign To Me" class="inline-block px-8" />
             </form>
-        </x-layouts.inner-form>
+        </x-layouts.card>
     @elseif ($pothole->status != \App\PotholeStatus::VERIFIED)
         {{-- Status Update Form (Admin & Super Admin) --}}
         @if ($pothole->assigned_to == Auth::id())
             <hr class="my-8 border-gray-400" />
-            <x-layouts.inner-form>
+            <x-layouts.card>
                 <x-slot name="title">Status Update</x-slot>
                 <p class="text-muted text-sm">Current Status: {{ $pothole->status }}</p>
 
@@ -142,14 +142,14 @@
                         :currOpt="Str::kebab($pothole->status->value)" />
                     <x-form-field type="submit" value="Update Status" class="inline-block px-6" />
                 </form>
-            </x-layouts.inner-form>
+            </x-layouts.card>
         @elseif(Auth::user()->isCitizen())
             {{-- Note to Citizen, if repair started --}}
             @if (Auth::user()->isCitizen())
                 <hr class="my-8 border-gray-400" />
-                <x-layouts.inner-form theme="red">
+                <x-layouts.card theme="red">
                     <p>This Pothole cannot be deleted due to repair in progress</p>
-                </x-layouts.inner-form>
+                </x-layouts.card>
             @endif
         @endif
     @endif

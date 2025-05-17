@@ -65,7 +65,7 @@
 @if ($isShow || $isEdit || $isProfile)
     {{-- Change Password Form --}}
     <hr class="my-8 border-gray-400" />
-    <x-layouts.inner-form>
+    <x-layouts.card>
         <x-slot name="title">Change Password</x-slot>
         {{-- method="post" action="{{ route('admin.management.password', $user->id) }}" --}}
         <form class="mt-4 space-y-4 w-1/2" x-data="{
@@ -83,9 +83,9 @@
             <x-form-field type="password" name="new_password_confirmation" label="Confirm Password" required />
             <x-form-field type="submit" value="Change Password" class="inline-block px-8 mt-4" />
         </form>
-    </x-layouts.inner-form>
+    </x-layouts.card>
     {{-- Delete Form --}}
-    <x-layouts.inner-form theme="red" class="mt-8">
+    <x-layouts.card theme="red" class="mt-8">
         <x-slot name="title">Delete Admin</x-slot>
         <form method="post"
             action="{{ route($isProfile ? 'user.profile.destroy' : 'admin.management.destroy', $user->id) }}"
@@ -96,5 +96,5 @@
                 placeholder="Type 'DELETE' here..." autocomplete="off" />
             <x-form-field type="submit" value="Delete" class="inline-block px-8 py-1 mt-auto red-btn" />
         </form>
-    </x-layouts.inner-form>
+    </x-layouts.card>
 @endif

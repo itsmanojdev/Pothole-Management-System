@@ -44,6 +44,10 @@
     @apply text-heading text-2xl font-bold;
 }
 
+.sub-heading{
+    @apply text-gray-700 text-lg font-medium;
+}
+
 .animate {
     @apply transition duration-300 ease-in-out;
 }
