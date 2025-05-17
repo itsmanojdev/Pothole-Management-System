@@ -100,10 +100,21 @@ const updateImagePreview = (event) => {
     image.classList.add("image-cover", "rounded-lg");
 
     const curFile = input.files[0];
-    if (curFile == undefined) {
+    fileCheck: if (curFile == undefined) {
         setDefaultImg();
         toast("info", "No files currently selected for upload");
     } else {
+        // Size Check -> upload file size limit - 5MB
+        if(curFile.size > 5*1024*1024){
+            setDefaultImg();
+            toast(
+                "error",
+                `File name ${curFile.name}: Exceeds the limit (5MB)`,
+            );
+            break fileCheck;
+        }
+
+        // Type Check -> JPEG, JPG, PNG
         if (validateFileType(CONSTANTS.FILE_TYPE.IMAGE, curFile.type)) {
             image.src = URL.createObjectURL(curFile);
             image.alt = image.title = title;

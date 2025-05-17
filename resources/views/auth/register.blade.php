@@ -4,7 +4,7 @@
         <div class="w-full sm:max-w-md bg-white shadow-lg rounded-sm p-6">
             <h1 class="heading text-center">Register</h1>
             <form x-data="{
-                form: $form('post', '/register', {
+                form: $form('post', '{{ route('register.store') }}', {
                     name: '{{ old('name') }}',
                     email: '{{ old('email') }}',
                     mobile_number: '{{ old('mobile_number') }}',

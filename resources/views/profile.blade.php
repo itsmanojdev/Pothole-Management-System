@@ -2,5 +2,6 @@
     <x-slot name="title">
         Profile Page
     </x-slot>
-    This is profile Page
+
+    <x-forms.user mode="{{ isset($isEdit) && $isEdit ? 'edit' : 'show' }}" :user="$user" />
 </x-layouts.app>

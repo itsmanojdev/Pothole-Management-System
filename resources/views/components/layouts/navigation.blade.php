@@ -41,9 +41,9 @@
             @endguest
 
             @auth
-                <x-nav-link :href="route('user.profile')" :active="request()->routeIs('user.profile')">Profile</x-nav-link>
+                <x-nav-link :href="route('user.profile.show', Auth::id())" :active="request()->routeIs('user.profile.*')">Profile</x-nav-link>
 
-                <form method="POST" action="/logout" class="ml-2 inline-flex items-center">
+                <form method="POST" action="{{ route('logout') }}" class="ml-2 inline-flex items-center">
                     @csrf
                     <x-form-field type='submit' value="Log out" class="text-sm tracking-wide" />
                 </form>

@@ -1,17 +1,18 @@
-@props(['mode' => 'create', 'pothole' => []])
+@props(['mode' => 'create', 'pothole' => (object) []])
 
 @php
     $isCreate = $mode == 'create';
     $isShow = $mode == 'show';
     $isEdit = $mode == 'edit';
 
-    $formURL = '/citizen/potholes';
+    $formURL = route('citizen.pothole.store');
     $method = 'post';
     if ($isShow) {
         $method = 'get';
-        $formURL = "/citizen/potholes/$pothole->id/edit";
+        $formURL = route('citizen.pothole.edit', $pothole->id);
     } elseif ($isEdit) {
-        $formURL = "/citizen/potholes/$pothole->id";
+        $method = 'patch';
+        $formURL = route('citizen.pothole.update', $pothole->id);
     }
 @endphp
 
@@ -87,7 +88,7 @@
                     @csrf
                     @method('PATCH')
                     <x-form-field type="text" name="verify" :labelDisplay="false" class="inline-block"
-                        placeholder="Type 'VERIFY' here..." />
+                        placeholder="Type 'VERIFY' here..." autocomplete="off" />
                     <x-form-field type="submit" value="Verify" class="inline-block px-8 py-1" />
                 </form>
             @else
@@ -105,9 +106,8 @@
                 @csrf
                 @method('DELETE')
                 <x-form-field type="text" name="delete" :labelDisplay="false" class="inline-block"
-                    placeholder="Type 'DELETE' here..." />
-                <x-form-field type="submit" value="Delete"
-                    class="inline-block px-8 py-1 bg-red-600 hover:bg-red-700 hover:border-red-900" />
+                    placeholder="Type 'DELETE' here..." autocomplete="off" />
+                <x-form-field type="submit" value="Delete" class="inline-block px-8 py-1 red-btn" />
             </form>
             <p class="text-muted text-xs mt-2">Pothole cannot be deleted after repair starts (Pothole status: In
                 progress)

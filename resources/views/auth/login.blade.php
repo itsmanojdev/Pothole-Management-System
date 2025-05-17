@@ -4,7 +4,7 @@
         <div class="w-full sm:max-w-md bg-white shadow-lg rounded-sm p-6">
             <h1 class="heading text-center">Login</h1>
             <form x-data="{
-                form: $form('post', '/login', {
+                form: $form('post', '{{ route('login.store') }}', {
                     primary: '{{ old('primary') }}',
                     password: ''
                 }).setErrors({{ Js::from($errors->messages()) }}),

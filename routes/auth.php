@@ -12,12 +12,11 @@ Route::middleware('guest')->group(function () {
     Route::view('/contact', 'contact')->name('contact');
 
     Route::get('/login', [SessionController::class, 'create'])->name('login');
-    Route::post('/login', [SessionController::class, 'store'])->middleware([HandlePrecognitiveRequests::class]);
-    
+    Route::post('/login', [SessionController::class, 'store'])->middleware([HandlePrecognitiveRequests::class])->name('login.store');
+
     Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
-    Route::post('/register', [RegisteredUserController::class, 'store'])->middleware([HandlePrecognitiveRequests::class]);
+    Route::post('/register', [RegisteredUserController::class, 'store'])->middleware([HandlePrecognitiveRequests::class])->name('register.store');
 });
 
 Route::post('/logout', [SessionController::class, 'destroy'])->name('logout');
 Route::get('/ping', fn() => response()->noContent());
-?>
