@@ -1,6 +1,6 @@
 <x-layouts.app>
     <div class="h-full flex flex-col items-center gap-10">
-        <x-logo class="size-30 text-gray-600" />
+        <x-logo class="size-30 text-gray-700" />
         <div class="w-full sm:max-w-md bg-white shadow-lg rounded-sm p-6">
             <h1 class="heading text-center">Register</h1>
             <form x-data="{
