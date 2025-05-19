@@ -33,7 +33,7 @@ RUN chown -R www-data:www-data /var/www/html
 RUN mkdir -p /data && touch /data/database.sqlite
 
 # Expose port for PHP-FPM
-EXPOSE 9000
+EXPOSE 80
 
 # Final startup commands
-CMD php artisan migrate --force && php artisan config:cache && php-fpm
+CMD php artisan migrate --force && php artisan config:cache && php-fpm && php artisan serve --host=0.0.0.0 --port=80
