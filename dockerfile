@@ -1,39 +1,26 @@
-# Use PHP 8.3 with FPM
-FROM php:8.3-fpm
-
-# Set working directory
-WORKDIR /var/www/html
-
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    git unzip curl libzip-dev zip libpng-dev libonig-dev libxml2-dev \
-    sqlite3 libsqlite3-dev gnupg \
-    && docker-php-ext-install pdo pdo_sqlite zip mbstring exif pcntl bcmath gd
-
-# Install Node.js (for Vite)
-RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
-    && apt-get install -y nodejs
-
-# Install Composer
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
-
-# Copy all files
+FROM richarvey/nginx-php-fpm:latest
+# Certifique-se de que o sistema está pronto para instalar pacotes
+USER root
+RUN apk update && \
+    apk add --no-cache curl nodejs npm && \
+    npm install -g npm@latest
 COPY . .
+# Image config
+ENV SKIP_COMPOSER 1
+ENV WEBROOT /var/www/html/public
+ENV PHP_ERRORS_STDERR 1
+ENV RUN_SCRIPTS 1
+ENV REAL_IP_HEADER 1
 
-# Install PHP dependencies
-RUN composer install --no-dev --optimize-autoloader
+# Laravel config
+ENV APP_ENV production
+ENV APP_DEBUG false
+ENV LOG_CHANNEL stderr
 
-# Install frontend dependencies and build Vite assets
-RUN npm install && npm run build
-
-# Set permissions
-RUN chown -R www-data:www-data /var/www/html
+# Allow composer to run as root
+ENV COMPOSER_ALLOW_SUPERUSER 1
 
 # Create SQLite file
 RUN mkdir -p /data && touch /data/database.sqlite
 
-# Expose port for PHP-FPM
-EXPOSE 9000
-
-# Final startup commands
-CMD php artisan migrate --force && php artisan config:cache && php-fpm
+CMD ["/start.sh"]
