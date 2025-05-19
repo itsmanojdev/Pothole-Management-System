@@ -6,6 +6,8 @@ import Precognition from "laravel-precognition-alpine";
 import toastr, { clear } from "toastr";
 import "toastr/build/toastr.min.css";
 
+import.meta.glob(['../images/**', '../audio/**']);
+
 window.Alpine = Alpine;
 
 Alpine.plugin(Precognition);
