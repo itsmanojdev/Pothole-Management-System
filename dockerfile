@@ -36,4 +36,4 @@ RUN mkdir -p /data && touch /data/database.sqlite
 EXPOSE 80
 
 # Final startup commands
-CMD php artisan migrate --force && php artisan config:cache && php-fpm && php artisan serve --host=0.0.0.0 --port=80
+CMD php artisan migrate --force && php artisan config:cache && php artisan serve --host=0.0.0.0 --port=80 && php-fpm
