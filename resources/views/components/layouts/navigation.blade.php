@@ -1,4 +1,4 @@
-<nav class="bg-white shadow-md text-sm">
+<nav class="bg-white shadow-md text-sm overflow-hidden">
     <div class="mx-auto h-[56px] flex justify-between md:px-16 px-8">
         <div class="flex gap-4">
             <div class="flex">
