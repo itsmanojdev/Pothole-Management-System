@@ -18,8 +18,8 @@ class RoleMiddleware
     public function handle(Request $request, Closure $next, $role): Response
     {
         $roles = $role == UserRole::ADMIN->value ? UserRole::adminAccess() : [UserRole::from($role)];
-        
-        if(!in_array(Auth::user()->role, $roles)){
+
+        if (!in_array(Auth::user()->role, $roles)) {
             abort(403, 'Oops!! Unauthorized Access');
         }
 

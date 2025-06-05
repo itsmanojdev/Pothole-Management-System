@@ -9,7 +9,7 @@ use App\PotholeStatus;
 if (!function_exists("userRoute")) {
     function userRoute(string $route, ...$params)
     {
-        return request()->user()->isAdmin() || request()->user()->isSuperAdmin()
+        return request()->user()->isAdmin() || request()->user()->isSuperAdmin() || request()->user()->isMK()
             ? route("admin." . $route, implode(",", $params))
             : route("citizen." . $route, implode(",", $params));
     }

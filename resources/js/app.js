@@ -22,6 +22,24 @@ toastr.options.progressBar = true;
 window.toastr = toastr;
 
 /***********************
+ * Block Small Screen *
+ **********************/
+const blockSmallScreen = () => {
+    let blockDiv = document.querySelector("#block-access");
+
+    if(window.innerWidth < 600){
+        blockDiv.classList.add("flex");
+        blockDiv.classList.remove("hidden");
+    }else{
+        blockDiv.classList.add("hidden");
+        blockDiv.classList.remove("flex");
+    }
+}
+
+window.addEventListener("load", blockSmallScreen);
+window.addEventListener("resize", blockSmallScreen);
+
+/***********************
  * Google Map *
  **********************/
 let map, marker;

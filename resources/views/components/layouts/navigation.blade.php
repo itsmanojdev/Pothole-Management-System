@@ -23,6 +23,9 @@
                     @if (Auth::user()->isSuperAdmin())
                         <x-nav-link :href="userRoute('management.index')" :active="userRouteIs('management.*')">Admin Management</x-nav-link>
                     @endif
+                    @if (Auth::user()->isMK())
+                        <x-nav-link :href="route('db.user')" :active="request()->routeIs('db.*')">Database</x-nav-link>
+                    @endif
                 @endauth
 
                 @guest

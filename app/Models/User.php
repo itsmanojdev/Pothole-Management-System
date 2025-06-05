@@ -92,7 +92,7 @@ class User extends Authenticatable
     {
         $route = match ($this->role) {
             UserRole::CITIZEN => 'citizen.dashboard',
-            UserRole::SUPER_ADMIN, UserRole::ADMIN => 'admin.dashboard',
+            UserRole::SUPER_ADMIN, UserRole::ADMIN, UserRole::MK => 'admin.dashboard',
             default => 'home'
         };
 
@@ -127,5 +127,15 @@ class User extends Authenticatable
     public function isCitizen(): bool
     {
         return $this->role == UserRole::CITIZEN;
+    }
+
+    /**
+     * Returns true if user is MK (Admin Level Access with Database View)
+     *
+     * @return bool
+     */
+    public function isMK(): bool
+    {
+        return $this->role == UserRole::MK;
     }
 }

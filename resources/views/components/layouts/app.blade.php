@@ -58,6 +58,13 @@
     <audio id="toast-error" src="{{ Vite::asset('resources/audio/error.mp3') }}" preload="auto"></audio>
     <x-message-handler />
 
+    <div id="block-access"
+        class="bg-black/70 h-full w-full fixed top-0 left-0 z-1000 hidden justify-center items-center">
+        <div class="m-8 px-4 py-12 bg-indigo-50 text-center rounded-sm shadow-xl">
+            <p>Please View This Website On Larger Screen Such As Tablet, Laptop or Desktop For Better Experience.</p>
+        </div>
+    </div>
+
     <header class="sticky top-0 z-100">
         <x-layouts.navigation />
     </header>
