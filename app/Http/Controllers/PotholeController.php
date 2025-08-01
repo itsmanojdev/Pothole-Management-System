@@ -126,7 +126,7 @@ class PotholeController extends Controller
             Storage::disk('public')->delete($pothole->image_path ?? '');
             $pothole->image_path = request()->file('pothole-image')->store("potholes", "public");
         }
-        //sample test
+
         // Save only if fields are dirty
         if ($pothole->isDirty()) {
             $pothole->save();
